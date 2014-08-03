@@ -1,3 +1,5 @@
+from __future__ import division
+
 import unicodedata
 from collections import Counter
 from math import log
@@ -167,11 +169,54 @@ class PasswordStats(object):
         """
         return self.length * log(self.alphabet_cardinality, 2)
 
-    def strength(self):
-        """ Get password strength as a number normalized to range 0..1
+    def strength(self, weak_bits=30):
+        """ Get password strength as a number normalized to range 0..1.
 
+        Normalization is done in the following fashion:
+
+        1. If entropy_bits <= weak_bits   -- linear in range(0.0 .. 0.33) (weak)
+        2. If entropy_bits <= weak_bits*2 -- almost linear in range(0.33 .. 0.66) (medium)
+        3. If entropy_bits > weak_bits*3  -- asymptotic towards 1.0 (strong)
+
+        :param weak_bits: Minimum entropy bits a medium password should have.
+        :type weak_bits: int
+        :param hard_bits: Minimum entropy bits a hard password should have.
+        :return: Normalized password strength:
+            * <0.33 is WEAK
+            * <0.66 is MEDIUM
+            * >0.66 is STRONG
         :rtype: float
         """
+        WEAK_MAX = 0.333333333
+
+        if self.entropy_bits <= weak_bits:
+            return WEAK_MAX * self.entropy_bits / weak_bits
+
+        HARD_BITS = weak_bits*3
+        HARD_VAL = 0.950
+
+        # Here, we want a function that:
+        # 1. f(x)=0.333 at x=weak_bits
+        # 2. f(x)=0.950 at x=weak_bits*3 (great estimation for a perfect password)
+        # 3. f(x) is almost linear in range(weak_bits .. weak_bits*2): doubling the bits should double the strength
+        # 4. f(x) has an asymptote of 1.0 (normalization)
+
+        # First, the function:
+        #       f(x) = 1 - (1-WEAK_MAX)*2^( -k*x)
+
+        # Now, the equation:
+        #       f(HARD_BITS) = HARD_VAL
+        #       1 - (1-WEAK_MAX)*2^( -k*HARD_BITS) = HARD_VAL
+        #                        2^( -k*HARD_BITS) = (1 - HARD_VAL) / (1-WEAK_MAX)
+        #       k = -log2((1 - HARD_VAL) / (1-WEAK_MAX)) / HARD_BITS
+        k = -log((1 - HARD_VAL) / (1-WEAK_MAX), 2) / HARD_BITS
+        f = lambda x: 1 - (1-WEAK_MAX)*pow(2, -k*x)
+
+        return f(self.entropy_bits - weak_bits)  # with offset
+
+
+
+
 
 
     #endregion

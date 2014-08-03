@@ -41,10 +41,19 @@ class StatsTest(unittest.TestCase):
         self.assertEqual(PasswordStats('00000001').combinations, 256)
         self.assertEqual(PasswordStats('abcdefgh').combinations, 16777216)
 
-        self.assertEqual(PasswordStats('01').entropy_bits, 2.0)
-        self.assertEqual(PasswordStats('00000001').entropy_bits, 8.0)
-        self.assertEqual(PasswordStats('abcdefgh').entropy_bits, 24.0)
+        self.assertAlmostEqual(PasswordStats('01').entropy_bits,                2.0,    delta=0.01)
+        self.assertAlmostEqual(PasswordStats('00000001').entropy_bits,          8.0,    delta=0.01)
+        self.assertAlmostEqual(PasswordStats('abcdefgh').entropy_bits,          24.0,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats('abcdefgh!@').entropy_bits,        33.21,  delta=0.01)
+        self.assertAlmostEqual(PasswordStats('abcdefgh!@#$%^&').entropy_bits,   58.60,  delta=0.01)
         self.assertAlmostEqual(PasswordStats('correcthorsebatterystaple').entropy_bits, 89.62, delta=0.01)
+
+        self.assertAlmostEqual(PasswordStats('00000001').strength(),            0.08,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats('abcdefgh').strength(),            0.26,   delta=0.01) # 30 bits, weak
+        self.assertAlmostEqual(PasswordStats('abcdefgh!@').strength(),          0.39,   delta=0.01) # 33 bits, medium
+        self.assertAlmostEqual(PasswordStats('abcdefgh!@#$%^&').strength(),     0.70,   delta=0.01) # 58 bits, strong (almost the double)
+
+
 
     def test_detectors(self):
         self.assertEqual(PasswordStats('abcabc-1234').repeated_patterns_length, 6)
