@@ -1,15 +1,15 @@
 #!/usr/bin/env python
-""" Password policy checker """
+""" Password strength and validation """
 
 from setuptools import setup, find_packages
 
 setup(
-    name='password_policy',
+    name='password_strength',
     version='0.0.1-0',
     author='Mark Vartanyan',
     author_email='kolypto@gmail.com',
 
-    url='https://github.com/kolypto/py-password-policy',
+    url='https://github.com/kolypto/py-password-strength',
     license='BSD',
     description=__doc__,
     long_description=open('README.rst').read(),

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from password_policy import PasswordStats
+from password_strength import PasswordStats
 
 
 class StatsTest(unittest.TestCase):
