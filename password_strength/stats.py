@@ -180,7 +180,6 @@ class PasswordStats(object):
 
         :param weak_bits: Minimum entropy bits a medium password should have.
         :type weak_bits: int
-        :param hard_bits: Minimum entropy bits a hard password should have.
         :return: Normalized password strength:
             * <0.33 is WEAK
             * <0.66 is MEDIUM
@@ -213,6 +212,24 @@ class PasswordStats(object):
         f = lambda x: 1 - (1-WEAK_MAX)*pow(2, -k*x)
 
         return f(self.entropy_bits - weak_bits)  # with offset
+
+    def smart_strength(self, weak_bits=30):
+        """ Get password strength as a number normalized to range {0 .. 1}.
+
+        In addition to strength(), this decreases the strength if the password has some of the following:
+        * repeated patterns
+        * sequences
+
+        It calculates the percentage of the string length that contains weak sequences, and decreases the strength.
+        E.g. if half of the string is 'qwerty' -- then strength has a 0.5-fold decrease.
+
+        :param weak_bits: Minimum entropy bits a medium password should have.
+        :type weak_bits: int
+        :return: Normalized password strength
+        :rtype: float
+        """
+        weak_factor = min(1.0, (self.repeated_patterns_length + self.sequences_length) / self.length)
+        return (1-weak_factor) * self.strength(weak_bits)
 
     #endregion
 
@@ -289,21 +306,5 @@ class PasswordStats(object):
             i += common_length
 
         return sequences_length
-
-    @cached_property
-    def weakness_factor(self):
-        """ Get password weakness factor as a number normalized to range {0 .. 1}.
-
-        The returned value can be used to decrease the strength of a password with some of the following:
-        * repeated patterns
-        * sequences
-
-        Is calculated as a percentage of string length that contains weaknesses.
-        E.g. if half of the string is 'qwerty' -- then weakness_factor is 0.5.
-
-        :return: Password weakness factor
-        :rtype: float
-        """
-        return min(1.0, (self.repeated_patterns_length + self.sequences_length) / self.length)
 
     #endregion

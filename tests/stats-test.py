@@ -63,18 +63,20 @@ class StatsTest(unittest.TestCase):
         self.assertAlmostEqual(PasswordStats( p896).entropy_bits, 896.00,  delta=0.01)
         self.assertAlmostEqual(PasswordStats(p2048).entropy_bits, 2048.00, delta=0.01)
 
+        self.assertAlmostEqual(PasswordStats(   p2).strength(), 0.02,   delta=0.01)
         self.assertAlmostEqual(PasswordStats(   p8).strength(), 0.08,   delta=0.01)
         self.assertAlmostEqual(PasswordStats(  p24).strength(), 0.26,   delta=0.01)
         self.assertAlmostEqual(PasswordStats(  p33).strength(), 0.39,   delta=0.01)
         self.assertAlmostEqual(PasswordStats(  p58).strength(), 0.70,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats(  p89).strength(), 0.88,   delta=0.01)
         self.assertAlmostEqual(PasswordStats( p160).strength(), 0.98,   delta=0.01)
         self.assertAlmostEqual(PasswordStats( p896).strength(), 0.99,   delta=0.01)
         self.assertAlmostEqual(PasswordStats(p2048).strength(), 1.00,   delta=0.01)
 
-        self.assertAlmostEqual(PasswordStats(p2).weakness_factor, 0.0, delta=0.01)
-        self.assertAlmostEqual(PasswordStats(p8).weakness_factor, 0.875, delta=0.01)
-        self.assertAlmostEqual(PasswordStats(p24).weakness_factor, 1.0, delta=0.01)
-        self.assertAlmostEqual(PasswordStats(p89).weakness_factor, 0.16, delta=0.01)
+        self.assertAlmostEqual(PasswordStats( p2).smart_strength(), 0.02 * 1.0,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats( p8).smart_strength(), 0.08 * 0.125, delta=0.01)
+        self.assertAlmostEqual(PasswordStats(p24).smart_strength(), 0.26 * 0.0,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats(p89).smart_strength(), 0.88 * 0.84,  delta=0.01)
 
     def test_detectors(self):
         self.assertEqual(PasswordStats('abcabc-1234').repeated_patterns_length, 6)
@@ -82,6 +84,7 @@ class StatsTest(unittest.TestCase):
         self.assertEqual(PasswordStats('abcabcabc-1234').repeated_patterns_length, 9)
 
         self.assertEqual(PasswordStats('qazwsx').sequences_length, 0)
+        self.assertEqual(PasswordStats('qw...').sequences_length, 0)  # Does not detect 2-character sequences
         self.assertEqual(PasswordStats('qwe...').sequences_length, 3)
         self.assertEqual(PasswordStats('qwerty...').sequences_length, 6)
         self.assertEqual(PasswordStats('ZZqwertyZZ1234...').sequences_length, 10)
