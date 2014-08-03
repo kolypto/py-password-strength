@@ -36,24 +36,45 @@ class StatsTest(unittest.TestCase):
         self.assertEqual(s.special_characters, 4+5+6+1)
 
     def test_security(self):
-        self.assertEqual(PasswordStats('1').combinations, 1)
-        self.assertEqual(PasswordStats('10').combinations, 4)
-        self.assertEqual(PasswordStats('00000001').combinations, 256)
-        self.assertEqual(PasswordStats('abcdefgh').combinations, 16777216)
+        p2 = '01'
+        p8 = '00000001'
+        p24 = 'abcdefgh'
+        p33 = 'abcdefgh!@'
+        p58 = 'abcdefgh!@#$%^&'
+        p89 = 'correcthorsebatterystaple'
 
-        self.assertAlmostEqual(PasswordStats('01').entropy_bits,                2.0,    delta=0.01)
-        self.assertAlmostEqual(PasswordStats('00000001').entropy_bits,          8.0,    delta=0.01)
-        self.assertAlmostEqual(PasswordStats('abcdefgh').entropy_bits,          24.0,   delta=0.01)
-        self.assertAlmostEqual(PasswordStats('abcdefgh!@').entropy_bits,        33.21,  delta=0.01)
-        self.assertAlmostEqual(PasswordStats('abcdefgh!@#$%^&').entropy_bits,   58.60,  delta=0.01)
-        self.assertAlmostEqual(PasswordStats('correcthorsebatterystaple').entropy_bits, 89.62, delta=0.01)
+        p160  = ''.join(unichr(n) for n in range(0, 32))
+        p384  = ''.join(unichr(n) for n in range(0, 64))
+        p896  = ''.join(unichr(n) for n in range(0, 128))
+        p2048 = ''.join(unichr(n) for n in range(0, 256))
 
-        self.assertAlmostEqual(PasswordStats('00000001').strength(),            0.08,   delta=0.01)
-        self.assertAlmostEqual(PasswordStats('abcdefgh').strength(),            0.26,   delta=0.01) # 30 bits, weak
-        self.assertAlmostEqual(PasswordStats('abcdefgh!@').strength(),          0.39,   delta=0.01) # 33 bits, medium
-        self.assertAlmostEqual(PasswordStats('abcdefgh!@#$%^&').strength(),     0.70,   delta=0.01) # 58 bits, strong (almost the double)
+        self.assertEqual(PasswordStats(p2).combinations,  4)
+        self.assertEqual(PasswordStats(p8).combinations,  256)
+        self.assertEqual(PasswordStats(p24).combinations, 16777216)
 
+        self.assertAlmostEqual(PasswordStats(   p2).entropy_bits, 2.0,     delta=0.01)
+        self.assertAlmostEqual(PasswordStats(   p8).entropy_bits, 8.0,     delta=0.01)
+        self.assertAlmostEqual(PasswordStats(  p24).entropy_bits, 24.0,    delta=0.01)
+        self.assertAlmostEqual(PasswordStats(  p33).entropy_bits, 33.21,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats(  p58).entropy_bits, 58.60,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats(  p89).entropy_bits, 89.62,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats( p160).entropy_bits, 160.00,  delta=0.01)
+        self.assertAlmostEqual(PasswordStats( p384).entropy_bits, 384.00,  delta=0.01)
+        self.assertAlmostEqual(PasswordStats( p896).entropy_bits, 896.00,  delta=0.01)
+        self.assertAlmostEqual(PasswordStats(p2048).entropy_bits, 2048.00, delta=0.01)
 
+        self.assertAlmostEqual(PasswordStats(   p8).strength(), 0.08,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats(  p24).strength(), 0.26,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats(  p33).strength(), 0.39,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats(  p58).strength(), 0.70,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats( p160).strength(), 0.98,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats( p896).strength(), 0.99,   delta=0.01)
+        self.assertAlmostEqual(PasswordStats(p2048).strength(), 1.00,   delta=0.01)
+
+        self.assertAlmostEqual(PasswordStats(p2).weakness_factor, 0.0, delta=0.01)
+        self.assertAlmostEqual(PasswordStats(p8).weakness_factor, 0.875, delta=0.01)
+        self.assertAlmostEqual(PasswordStats(p24).weakness_factor, 1.0, delta=0.01)
+        self.assertAlmostEqual(PasswordStats(p89).weakness_factor, 0.16, delta=0.01)
 
     def test_detectors(self):
         self.assertEqual(PasswordStats('abcabc-1234').repeated_patterns_length, 6)

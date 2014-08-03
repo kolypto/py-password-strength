@@ -170,12 +170,12 @@ class PasswordStats(object):
         return self.length * log(self.alphabet_cardinality, 2)
 
     def strength(self, weak_bits=30):
-        """ Get password strength as a number normalized to range 0..1.
+        """ Get password strength as a number normalized to range {0 .. 1}.
 
         Normalization is done in the following fashion:
 
-        1. If entropy_bits <= weak_bits   -- linear in range(0.0 .. 0.33) (weak)
-        2. If entropy_bits <= weak_bits*2 -- almost linear in range(0.33 .. 0.66) (medium)
+        1. If entropy_bits <= weak_bits   -- linear in range{0.0 .. 0.33} (weak)
+        2. If entropy_bits <= weak_bits*2 -- almost linear in range{0.33 .. 0.66} (medium)
         3. If entropy_bits > weak_bits*3  -- asymptotic towards 1.0 (strong)
 
         :param weak_bits: Minimum entropy bits a medium password should have.
@@ -198,7 +198,7 @@ class PasswordStats(object):
         # Here, we want a function that:
         # 1. f(x)=0.333 at x=weak_bits
         # 2. f(x)=0.950 at x=weak_bits*3 (great estimation for a perfect password)
-        # 3. f(x) is almost linear in range(weak_bits .. weak_bits*2): doubling the bits should double the strength
+        # 3. f(x) is almost linear in range{weak_bits .. weak_bits*2}: doubling the bits should double the strength
         # 4. f(x) has an asymptote of 1.0 (normalization)
 
         # First, the function:
@@ -213,11 +213,6 @@ class PasswordStats(object):
         f = lambda x: 1 - (1-WEAK_MAX)*pow(2, -k*x)
 
         return f(self.entropy_bits - weak_bits)  # with offset
-
-
-
-
-
 
     #endregion
 
@@ -255,6 +250,7 @@ class PasswordStats(object):
         - Keyboard special characters in the top row: ~!@#$%^&*()_+
         - Numbers: 0123456
 
+        :return: Total length of character sequences that are subsets of the common sequences
         :rtype: int
         """
         # FIXME: Optimize this. I'm sure there is a better way!...
@@ -286,7 +282,7 @@ class PasswordStats(object):
                 common_length = max(common_length, len(common_here))
 
             # Repeated sequence?
-            if common_length > 1:
+            if common_length > 2:
                 sequences_length += common_length
 
             # Next: skip to the end of the detected sequence
@@ -294,6 +290,20 @@ class PasswordStats(object):
 
         return sequences_length
 
+    @cached_property
+    def weakness_factor(self):
+        """ Get password weakness factor as a number normalized to range {0 .. 1}.
 
+        The returned value can be used to decrease the strength of a password with some of the following:
+        * repeated patterns
+        * sequences
+
+        Is calculated as a percentage of string length that contains weaknesses.
+        E.g. if half of the string is 'qwerty' -- then weakness_factor is 0.5.
+
+        :return: Password weakness factor
+        :rtype: float
+        """
+        return min(1.0, (self.repeated_patterns_length + self.sequences_length) / self.length)
 
     #endregion
