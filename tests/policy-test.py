@@ -7,15 +7,15 @@ class PolicyTest(unittest.TestCase):
     longMessage = True
 
     def test(self):
-        policy = PasswordPolicy(
-            tests.Length(8),
-            tests.Uppercase(2),
-            tests.Numbers(2),
-            tests.Special(2),
-            tests.NonLetters(2),
-            tests.NonLettersLc(2),
-            tests.EntropyBits(30),
-            tests.Strength(0.3333),
+        policy = PasswordPolicy.from_names(
+            length=8,
+            uppercase=2,
+            numbers=2,
+            special=2,
+            nonletters=2,
+            nonletterslc=2,
+            entropybits=30,
+            strength=(0.333, 30)
         )
 
         passwords = {

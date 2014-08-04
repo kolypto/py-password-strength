@@ -1,23 +1,7 @@
-class BaseTest(object):
-    """ Base class for password tests """
-
-    @classmethod
-    def name(cls):
-        """ Get test name """
-        return cls.__name__.lower()
-
-    def test(self, ps):
-        """ Test a password with the test
-
-        :param ps: Password stats
-        :type ps: PasswordStats
-        :return: Whether the test was passed
-        :rtype: bool
-        """
-        raise NotImplementedError
+from tests_base import ATest
 
 
-class Length(BaseTest):
+class Length(ATest):
     """ Password length >= the required minimum length """
 
     def __init__(self, length):
@@ -27,7 +11,7 @@ class Length(BaseTest):
         return ps.length >= self.length
 
 
-class Uppercase(BaseTest):
+class Uppercase(ATest):
     """ Has enough uppercase characters """
 
     def __init__(self, count):
@@ -67,7 +51,7 @@ class NonLettersLc(Uppercase):
         return non_lowercase_letters >= self.count
 
 
-class EntropyBits(BaseTest):
+class EntropyBits(ATest):
     """ Has enough entropy bits """
 
     def __init__(self, bits):
@@ -77,7 +61,7 @@ class EntropyBits(BaseTest):
         return ps.entropy_bits >= self.bits
 
 
-class Strength(BaseTest):
+class Strength(ATest):
     """ Has enough strength """
 
     def __init__(self, strength, weak_bits=30):
