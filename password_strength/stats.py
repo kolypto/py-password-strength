@@ -169,6 +169,22 @@ class PasswordStats(object):
         """
         return self.length * log(self.alphabet_cardinality, 2)
 
+    @cached_property
+    def entropy_density(self):
+        """ Get information entropy density factor, ranged {0 .. 1}.
+
+        This is ratio of entropy_bits() to max bits a password of this length could have.
+        E.g. if all characters are unique -- then it's 1.0.
+        If half of the characters are reused once -- then it's 0.5.
+
+        :rtype: float
+        """
+        # Simplifying:
+        #     entropy_bits / (length * log(length, 2)) =
+        #   = log(alphabet_cardinality, 2) / log(length, 2) =
+        #   = log(alphabet_cardinality, length)
+        return log(self.alphabet_cardinality, self.length)
+
     def strength(self, weak_bits=30):
         """ Get password strength as a number normalized to range {0 .. 1}.
 
@@ -216,7 +232,7 @@ class PasswordStats(object):
     def smart_strength(self, weak_bits=30):
         """ Get password strength as a number normalized to range {0 .. 1}.
 
-        In addition to strength(), this decreases the strength if the password has some of the following:
+        In addition to strength(), it decreases the strength if the password has some of the following:
         * repeated patterns
         * sequences
 

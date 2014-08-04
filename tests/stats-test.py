@@ -52,6 +52,11 @@ class StatsTest(unittest.TestCase):
         self.assertEqual(PasswordStats(p8).combinations,  256)
         self.assertEqual(PasswordStats(p24).combinations, 16777216)
 
+        self.assertAlmostEqual(PasswordStats(   '01').entropy_density,  1.0,  delta=0.01)
+        self.assertAlmostEqual(PasswordStats(  '001').entropy_density,  0.63, delta=0.01)
+        self.assertAlmostEqual(PasswordStats( '0001').entropy_density,  0.5,  delta=0.01)
+        self.assertAlmostEqual(PasswordStats('00001').entropy_density,  0.43, delta=0.01)
+
         self.assertAlmostEqual(PasswordStats(   p2).entropy_bits, 2.0,     delta=0.01)
         self.assertAlmostEqual(PasswordStats(   p8).entropy_bits, 8.0,     delta=0.01)
         self.assertAlmostEqual(PasswordStats(  p24).entropy_bits, 24.0,    delta=0.01)
