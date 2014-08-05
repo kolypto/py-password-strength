@@ -18,7 +18,7 @@ Bundled Tests
 {{ tests.module.doc }}
 
 {% for test in tests.attrs.values() %}
-### tests.{{ test.signature }}
+#### tests.{{ test.signature }}
 {{ test.clsdoc }}
 {% endfor %}
 
@@ -58,6 +58,6 @@ from password_strength import PasswordStats
 ```
 
 {% for stat in PasswordStats.attrs.values() %}
-### PasswordStats.{{ stat.signature }}
+#### PasswordStats.{{ stat.signature }}
 {{ stat.doc }}
 {% endfor %}

@@ -17,7 +17,7 @@ These objects perform individual tests on a password, and report
 ``True`` of ``False``.
 
 tests.Strength(strength, weak\_bits=30)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Test whether the password has >= ``strength`` strength.
 
@@ -26,37 +26,37 @@ A password is evaluated to the strength of 0.333 when it has
 Strong passwords start at 0.666.
 
 tests.Special(count)
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
 
 Test whether the password has >= ``count`` special characters
 
 tests.Uppercase(count)
-~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^
 
 Test whether the password has >= ``count`` uppercase characters
 
 tests.EntropyBits(bits)
-~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 
 Test whether the password has >= ``bits`` entropy bits
 
 tests.Length(length)
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
 
 Tests whether password length >= ``length``
 
 tests.Numbers(count)
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
 
 Test whether the password has >= ``count`` numeric characters
 
 tests.NonLetters(count)
-~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 
 Test whether the password has >= ``count`` non-letter characters
 
 tests.NonLettersLc(count)
-~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Test whether the password has >= ``count`` non-lowercase characters
 
@@ -124,22 +124,22 @@ Constructor:
     PasswordStats(password)
 
 PasswordStats.alphabet\_cardinality
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Get alphabet cardinality: alphabet length
 
 PasswordStats.count(\*categories) Count characters of the specified classes only
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 PasswordStats.entropy\_bits
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Get information entropy bits: log2 of the number of possible passwords
 
 https://en.wikipedia.org/wiki/Password\_strength
 
 PasswordStats.strength(weak\_bits=30)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Get password strength as a number normalized to range {0 .. 1}.
 
@@ -151,12 +151,12 @@ Normalization is done in the following fashion:
 3. If entropy\_bits > weak\_bits\*3 -- asymptotic towards 1.0 (strong)
 
 PasswordStats.letters
-~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^
 
 Count all letters
 
 PasswordStats.sequences\_length
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Detect and return the length of used sequences:
 
@@ -166,17 +166,17 @@ Detect and return the length of used sequences:
 -  Numbers: 0123456
 
 PasswordStats.letters\_uppercase
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Count uppercase letters
 
 PasswordStats.alphabet
-~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^
 
 Get alphabet: set of used characters
 
 PasswordStats.weakness\_factor
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Get weakness factor as a float in range {0 .. 1}
 
@@ -191,7 +191,7 @@ Typical usage:
 password\_strength = (1 - weakness\_factor) \* strength
 
 PasswordStats.char\_categories
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Character count per top-level category
 
@@ -206,12 +206,12 @@ The following top-level categories are defined:
 -  C: Other
 
 PasswordStats.length
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
 
 Get password length
 
 PasswordStats.repeated\_patterns\_length
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Detect and return the length of repeated patterns.
 
@@ -219,32 +219,32 @@ You will probably be comparing it with the length of the password itself
 and ban if it's longer than 10%
 
 PasswordStats.letters\_lowercase
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Count lowercase letters
 
 PasswordStats.special\_characters
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Count special characters
 
 Special characters is everything that's not a letter or a number
 
 PasswordStats.numbers
-~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^
 
 Count numbers
 
 PasswordStats.count\_except(\*categories) Count characters of all classes except the specified ones
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 PasswordStats.combinations
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The number of possible combinations with the current alphabet
 
 PasswordStats.entropy\_density
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Get information entropy density factor, ranged {0 .. 1}.
 
@@ -253,7 +253,7 @@ could have. E.g. if all characters are unique -- then it's 1.0. If half
 of the characters are reused once -- then it's 0.5.
 
 PasswordStats.char\_categories\_detailed
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Character count per unicode category, detailed format.
 

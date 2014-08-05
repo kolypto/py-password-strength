@@ -18,31 +18,31 @@ Bundled Tests
 These objects perform individual tests on a password, and report `True` of `False`.
 
 
-### tests.Strength(strength, weak_bits=30)
+#### tests.Strength(strength, weak_bits=30)
 Test whether the password has >= `strength` strength.
 
 A password is evaluated to the strength of 0.333 when it has `weak_bits` entropy bits,
 which is considered to be a weak password. Strong passwords start at 0.666.
 
-### tests.Special(count)
+#### tests.Special(count)
 Test whether the password has >= `count` special characters
 
-### tests.Uppercase(count)
+#### tests.Uppercase(count)
 Test whether the password has >= `count` uppercase characters
 
-### tests.EntropyBits(bits)
+#### tests.EntropyBits(bits)
 Test whether the password has >= `bits` entropy bits
 
-### tests.Length(length)
+#### tests.Length(length)
 Tests whether password length >= `length`
 
-### tests.Numbers(count)
+#### tests.Numbers(count)
 Test whether the password has >= `count` numeric characters
 
-### tests.NonLetters(count)
+#### tests.NonLetters(count)
 Test whether the password has >= `count` non-letter characters
 
-### tests.NonLettersLc(count)
+#### tests.NonLettersLc(count)
 Test whether the password has >= `count` non-lowercase characters
 
 
@@ -100,18 +100,18 @@ PasswordStats(password)
 ```
 
 
-### PasswordStats.alphabet_cardinality
+#### PasswordStats.alphabet_cardinality
 Get alphabet cardinality: alphabet length
 
-### PasswordStats.count(*categories)
+#### PasswordStats.count(*categories)
 Count characters of the specified classes only
 
-### PasswordStats.entropy_bits
+#### PasswordStats.entropy_bits
 Get information entropy bits: log2 of the number of possible passwords
 
 https://en.wikipedia.org/wiki/Password_strength
 
-### PasswordStats.strength(weak_bits=30)
+#### PasswordStats.strength(weak_bits=30)
 Get password strength as a number normalized to range {0 .. 1}.
 
 Normalization is done in the following fashion:
@@ -120,10 +120,10 @@ Normalization is done in the following fashion:
 2. If entropy_bits <= weak_bits*2 -- almost linear in range{0.33 .. 0.66} (medium)
 3. If entropy_bits > weak_bits*3  -- asymptotic towards 1.0 (strong)
 
-### PasswordStats.letters
+#### PasswordStats.letters
 Count all letters
 
-### PasswordStats.sequences_length
+#### PasswordStats.sequences_length
 Detect and return the length of used sequences:
 
 - Alphabet letters: abcd...
@@ -131,13 +131,13 @@ Detect and return the length of used sequences:
 - Keyboard special characters in the top row: ~!@#$%^&*()_+
 - Numbers: 0123456
 
-### PasswordStats.letters_uppercase
+#### PasswordStats.letters_uppercase
 Count uppercase letters
 
-### PasswordStats.alphabet
+#### PasswordStats.alphabet
 Get alphabet: set of used characters
 
-### PasswordStats.weakness_factor
+#### PasswordStats.weakness_factor
 Get weakness factor as a float in range {0 .. 1}
 
 This detects the portion of the string that contains:
@@ -150,7 +150,7 @@ Typical usage:
 
 password_strength = (1 - weakness_factor) * strength
 
-### PasswordStats.char_categories
+#### PasswordStats.char_categories
 Character count per top-level category
 
 The following top-level categories are defined:
@@ -163,39 +163,39 @@ The following top-level categories are defined:
 - Z: Separator
 - C: Other
 
-### PasswordStats.length
+#### PasswordStats.length
 Get password length
 
-### PasswordStats.repeated_patterns_length
+#### PasswordStats.repeated_patterns_length
 Detect and return the length of repeated patterns.
 
 You will probably be comparing it with the length of the password itself and ban if it's longer than 10%
 
-### PasswordStats.letters_lowercase
+#### PasswordStats.letters_lowercase
 Count lowercase letters
 
-### PasswordStats.special_characters
+#### PasswordStats.special_characters
 Count special characters
 
 Special characters is everything that's not a letter or a number
 
-### PasswordStats.numbers
+#### PasswordStats.numbers
 Count numbers
 
-### PasswordStats.count_except(*categories)
+#### PasswordStats.count_except(*categories)
 Count characters of all classes except the specified ones
 
-### PasswordStats.combinations
+#### PasswordStats.combinations
 The number of possible combinations with the current alphabet
 
-### PasswordStats.entropy_density
+#### PasswordStats.entropy_density
 Get information entropy density factor, ranged {0 .. 1}.
 
 This is ratio of entropy_bits() to max bits a password of this length could have.
 E.g. if all characters are unique -- then it's 1.0.
 If half of the characters are reused once -- then it's 0.5.
 
-### PasswordStats.char_categories_detailed
+#### PasswordStats.char_categories_detailed
 Character count per unicode category, detailed format.
 
 See: http://www.unicode.org/reports/tr44/#GC_Values_Table
