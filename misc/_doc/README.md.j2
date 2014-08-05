@@ -1,0 +1,63 @@
+[![Build Status](https://api.travis-ci.org/kolypto/py-password-strength.png?branch=master)](https://travis-ci.org/kolypto/py-password-strength)
+
+
+Password Strength
+=================
+
+Password strength and validation.
+
+
+PasswordPolicy
+==============
+
+{{ PasswordPolicy.class.clsdoc }}
+
+Bundled Tests
+-------------
+
+{{ tests.module.doc }}
+
+{% for test in tests.attrs.values() %}
+### tests.{{ test.signature }}
+{{ test.clsdoc }}
+{% endfor %}
+
+Usage
+-----
+
+First, initialize a `{{ PasswordPolicy.class.name }}` object with a list of initialized tests:
+
+    {{ PasswordPolicy.class.signature }}
+
+Alternatively, you can use `{{ PasswordPolicy.attrs.from_names.signature }}`, which uses a dictionary.
+{{ PasswordPolicy.attrs.from_names.doc }}
+
+Having an object, perform tests on a password with:
+
+    {{ PasswordPolicy.attrs.test.signature }}
+
+Given a password, it returns {{ PasswordPolicy.attrs.test.ret.doc }}
+
+
+Custom Tests
+------------
+
+{{ ATest.clsdoc }}
+
+
+PasswordStats
+-------------
+
+{{ PasswordStats.class.clsdoc }}
+
+Constructor:
+
+```python
+from password_strength import PasswordStats
+{{ PasswordStats.class.signature }}
+```
+
+{% for stat in PasswordStats.attrs.values() %}
+### PasswordStats.{{ stat.signature }}
+{{ stat.doc }}
+{% endfor %}

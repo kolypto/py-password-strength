@@ -21,7 +21,10 @@ def cached_property(f):
 
 
 class PasswordStats(object):
-    """ Password statistics """
+    """ PasswordStats allows to calculate statistics on a password.
+
+        It considers a password as a unicode string, and all statistics are unicode-based.
+    """
 
     def __init__(self, password):
         self.password = unicode(password)

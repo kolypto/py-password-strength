@@ -22,7 +22,7 @@ setup(
     install_requires=[
     ],
     extras_require={
-        '_tests': ['nose', ],
+        '_dev': ['nose', 'exdoc', 'j2cli' ],
     },
     include_package_data=True,
     test_suite='nose.collector',

@@ -3,14 +3,22 @@ from . import tests as _tests
 
 
 class PasswordPolicy(object):
-    """ Password policy tester """
+    """ Perform tests on a password. """
 
     @classmethod
     def from_names(cls, **tests):
         """ Init password policy from a dictionary of test definitions.
 
         A test definition is simply:
+
             { test-name: argument } or { test-name: [arguments] }
+
+        Example:
+
+            PasswordPolicy.from_names(
+                length=8,
+                strength=(0.33, 30),
+            )
 
         :param tests: Dict of test definitions.
         :rtype: PasswordPolicy
@@ -32,11 +40,11 @@ class PasswordPolicy(object):
         assert all(map(lambda c: isinstance(c, _tests.ATest), tests)), 'Tests should be instances of password_strength.tests.ATest'
 
     def test(self, password):
-        """ Test a password
+        """ Perform tests on a password.
 
         :param password: Passphrase
         :type password: str|unicode|PasswordStats
-        :return: List of test objects that have failed
+        :return: list of test objects that have failed
         :rtype: list[tests.ATest]
         """
         ps = password if isinstance(password, PasswordStats) else PasswordStats(password)

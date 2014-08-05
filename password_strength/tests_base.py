@@ -17,7 +17,13 @@ class ATestMeta(type):
 
 
 class ATest(object):
-    """ Base class for password tests """
+    """ ATest is a base class for password tests.
+
+        To create a custom test, just subclass it and implement the following methods:
+
+        * __init__() that takes configuration arguments
+        * test(ps) that tests a password, where `ps` is a `PasswordStats` object.
+    """
     __metaclass__ = ATestMeta
 
     #: Test classes map: { name : class }

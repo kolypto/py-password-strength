@@ -4,6 +4,6 @@ python:
 #  - "3.3"
 
 install:
-  - "pip install -e '.[_tests]'"
+  - "pip install -e '.[_dev]'"
 
 script: make test

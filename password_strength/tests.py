@@ -1,8 +1,10 @@
+""" These objects perform individual tests on a password, and report `True` of `False`. """
+
 from tests_base import ATest
 
 
 class Length(ATest):
-    """ Password length >= the required minimum length """
+    """ Tests whether password length >= `length` """
 
     def __init__(self, length):
         self.length = length
@@ -12,7 +14,7 @@ class Length(ATest):
 
 
 class Uppercase(ATest):
-    """ Has enough uppercase characters """
+    """ Test whether the password has >= `count` uppercase characters """
 
     def __init__(self, count):
         self.count = count
@@ -22,21 +24,21 @@ class Uppercase(ATest):
 
 
 class Numbers(Uppercase):
-    """ Has enough numbers """
+    """ Test whether the password has >= `count` numeric characters """
 
     def test(self, ps):
         return ps.numbers >= self.count
 
 
 class Special(Uppercase):
-    """ Has enough special characters """
+    """ Test whether the password has >= `count` special characters """
 
     def test(self, ps):
         return ps.special_characters >= self.count
 
 
 class NonLetters(Uppercase):
-    """ Has enough non-letter characters """
+    """ Test whether the password has >= `count` non-letter characters """
 
     def test(self, ps):
         non_letters = ps.length - ps.letters
@@ -44,7 +46,7 @@ class NonLetters(Uppercase):
 
 
 class NonLettersLc(Uppercase):
-    """ Has enough non-lowercase-letter characters """
+    """ Test whether the password has >= `count` non-lowercase characters """
 
     def test(self, ps):
         non_lowercase_letters = ps.length - ps.letters_lowercase
@@ -52,7 +54,7 @@ class NonLettersLc(Uppercase):
 
 
 class EntropyBits(ATest):
-    """ Has enough entropy bits """
+    """ Test whether the password has >= `bits` entropy bits """
 
     def __init__(self, bits):
         self.bits = bits
@@ -62,7 +64,11 @@ class EntropyBits(ATest):
 
 
 class Strength(ATest):
-    """ Has enough strength """
+    """ Test whether the password has >= `strength` strength.
+
+        A password is evaluated to the strength of 0.333 when it has `weak_bits` entropy bits,
+        which is considered to be a weak password. Strong passwords start at 0.666.
+    """
 
     def __init__(self, strength, weak_bits=30):
         self.strength = strength
