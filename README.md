@@ -12,6 +12,37 @@ PasswordPolicy
 
 Perform tests on a password.
 
+Init Policy
+-----------
+
+```python
+PasswordPolicy(*tests)
+```
+
+Init password policy with a list of tests
+
+Alternatively:
+
+```python
+PasswordPolicy.from_names(**tests)
+```
+
+Init password policy from a dictionary of test definitions.
+
+A test definition is simply:
+
+    { test-name: argument } or { test-name: [arguments] }
+
+Test name is just a lowercased class name.
+
+Example:
+
+    PasswordPolicy.from_names(
+        length=8,
+        strength=(0.33, 30),
+    )
+
+
 Bundled Tests
 -------------
 
@@ -46,32 +77,28 @@ Test whether the password has >= `count` non-letter characters
 Test whether the password has >= `count` non-lowercase characters
 
 
-Usage
------
+Testing
+-------
 
-First, initialize a `PasswordPolicy` object with a list of initialized tests:
+After the `PasswordPolicy` is initialized, there are two methods to test:
 
-    PasswordPolicy(*tests)
+### PasswordPolicy.password
+```python
+password(password)
+```
+Get password stats bound to the tests declared in this policy.
 
-Alternatively, you can use `from_names(**tests)`, which uses a dictionary.
-Init password policy from a dictionary of test definitions.
+If in addition to tests you need to get statistics (e.g. strength) -- use this object to double calculations.
 
-A test definition is simply:
+See [`PasswordStats`](#passwordstats) for more details.
 
-    { test-name: argument } or { test-name: [arguments] }
+### PasswordPolicy.test
+```python
+test(password)
+```
+Perform tests on a password.
 
-Example:
-
-    PasswordPolicy.from_names(
-        length=8,
-        strength=(0.33, 30),
-    )
-
-Having an object, perform tests on a password with:
-
-    test(password)
-
-Given a password, it returns list of test objects that have failed
+Shortcut for: `PasswordPolicy.password(password).test()`.
 
 
 Custom Tests
@@ -174,6 +201,9 @@ You will probably be comparing it with the length of the password itself and ban
 #### PasswordStats.letters_lowercase
 Count lowercase letters
 
+#### PasswordStats.combinations
+The number of possible combinations with the current alphabet
+
 #### PasswordStats.special_characters
 Count special characters
 
@@ -185,8 +215,8 @@ Count numbers
 #### PasswordStats.count_except(*categories)
 Count characters of all classes except the specified ones
 
-#### PasswordStats.combinations
-The number of possible combinations with the current alphabet
+#### PasswordStats.test(tests)
+Test the password against a list of tests
 
 #### PasswordStats.entropy_density
 Get information entropy density factor, ranged {0 .. 1}.

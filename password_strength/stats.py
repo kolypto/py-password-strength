@@ -328,3 +328,15 @@ class PasswordStats(object):
         return min(1.0, (self.repeated_patterns_length + self.sequences_length) / self.length)
 
     #endregion
+
+    def test(self, tests):
+        """ Test the password against a list of tests
+
+        :param tests: Test to do
+        :type tests: Iterable[password_strength.tests.ATest]
+        :return: list of tests that have failed
+        :rtype: list[tests.ATest]
+        """
+        return [t
+                for t in tests
+                if not t.test(self)]

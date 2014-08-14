@@ -12,6 +12,24 @@ PasswordPolicy
 
 {{ PasswordPolicy.class.clsdoc }}
 
+Init Policy
+-----------
+
+```python
+{{ PasswordPolicy.class.signature }}
+```
+
+{{ PasswordPolicy.class.doc }}
+
+Alternatively:
+
+```python
+PasswordPolicy.{{ PasswordPolicy.attrs.from_names.signature }}
+```
+
+{{ PasswordPolicy.attrs.from_names.doc }}
+
+
 Bundled Tests
 -------------
 
@@ -22,21 +40,22 @@ Bundled Tests
 {{ test.clsdoc }}
 {% endfor %}
 
-Usage
------
+Testing
+-------
 
-First, initialize a `{{ PasswordPolicy.class.name }}` object with a list of initialized tests:
+After the `PasswordPolicy` is initialized, there are two methods to test:
 
-    {{ PasswordPolicy.class.signature }}
+### {{ PasswordPolicy.attrs.password.qualname }}
+```python
+{{ PasswordPolicy.attrs.password.signature }}
+```
+{{ PasswordPolicy.attrs.password.doc }}
 
-Alternatively, you can use `{{ PasswordPolicy.attrs.from_names.signature }}`, which uses a dictionary.
-{{ PasswordPolicy.attrs.from_names.doc }}
-
-Having an object, perform tests on a password with:
-
-    {{ PasswordPolicy.attrs.test.signature }}
-
-Given a password, it returns {{ PasswordPolicy.attrs.test.ret.doc }}
+### {{ PasswordPolicy.attrs.test.qualname }}
+```python
+{{ PasswordPolicy.attrs.test.signature }}
+```
+{{ PasswordPolicy.attrs.test.doc }}
 
 
 Custom Tests

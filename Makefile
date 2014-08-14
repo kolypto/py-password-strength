@@ -1,6 +1,6 @@
 all:
 
-.PHONY: env test test3 check clean build publish install
+.PHONY: README.md env test test3 check clean build publish install
 
 # Run tests
 test:

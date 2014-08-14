@@ -29,6 +29,14 @@ class ATest(object):
     #: Test classes map: { name : class }
     test_classes = {}
 
+    def __new__(cls, *args):
+        test = super(ATest, cls).__new__(cls, *args)
+        test.args = args  # Store args
+        return test
+
+    def __init__(self, *args):
+        self.args = args
+
     @classmethod
     def name(cls):
         """ Get test name """
