@@ -24,7 +24,7 @@ Init Policy
 Alternatively:
 
 ```python
-PasswordPolicy.{{ PasswordPolicy.attrs.from_names.signature }}
+{{ PasswordPolicy.attrs.from_names.qsignature }}
 ```
 
 {{ PasswordPolicy.attrs.from_names.doc }}
@@ -37,7 +37,7 @@ Bundled Tests
 
 {% for test in tests.attrs.values() %}
 #### tests.{{ test.signature }}
-{{ test.clsdoc }}
+{{ test.doc }}
 {% endfor %}
 
 Testing
@@ -61,13 +61,13 @@ After the `PasswordPolicy` is initialized, there are two methods to test:
 Custom Tests
 ------------
 
-{{ ATest.clsdoc }}
+{{ ATest.doc }}
 
 
 PasswordStats
 -------------
 
-{{ PasswordStats.class.clsdoc }}
+{{ PasswordStats.class.doc }}
 
 Constructor:
 
