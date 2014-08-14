@@ -17,6 +17,6 @@ README.md:
 README.rst: README.md
 	@pandoc -f markdown -t rst -o README.rst README.md
 build: README.rst
-	@./setup.py build sdist bdist
+	@./setup.py build sdist bdist_wheel
 publish: README.rst
-	@./setup.py build sdist bdist register upload -r pypi
+	@./setup.py build sdist bdist_wheel register upload -r pypi

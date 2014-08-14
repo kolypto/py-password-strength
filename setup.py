@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='password_strength',
-    version='0.0.1-0',
+    version='0.0.1-1',
     author='Mark Vartanyan',
     author_email='kolypto@gmail.com',
 
@@ -22,7 +22,7 @@ setup(
     install_requires=[
     ],
     extras_require={
-        '_dev': ['nose', 'exdoc', 'j2cli' ],
+        '_dev': ['wheel', 'nose', 'exdoc', 'j2cli' ],
     },
     include_package_data=True,
     test_suite='nose.collector',
