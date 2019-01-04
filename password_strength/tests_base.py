@@ -1,3 +1,5 @@
+from typing import Any
+
 from six import with_metaclass
 
 class ATestMeta(type):
@@ -29,11 +31,6 @@ class ATest(with_metaclass(ATestMeta, object)):
     #: Test classes map: { name : class }
     test_classes = {}
 
-    #def __new__(cls, *args):  # looks like this code is not really necessary... :)
-    #    test = super(ATest, cls).__new__(cls, *args)
-    #    test.args = args  # Store args
-    #    return test
-
     def __init__(self, *args):
         self.args = args  # Store args
 
@@ -51,3 +48,6 @@ class ATest(with_metaclass(ATestMeta, object)):
         :rtype: bool
         """
         raise NotImplementedError
+
+    def __repr__(self):
+        return '{cls}({args})'.format(cls=self.__class__.__name__, args=', '.join(map(str, self.args)))

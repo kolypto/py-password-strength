@@ -8,6 +8,118 @@ Password Strength
 Password strength and validation.
 
 
+Tutorial
+========
+
+
+### Uppercase, Numbers, Special Characters
+
+You test your passwords using the Policy object that controls what kind of password is acceptable in your system.
+
+First, create the Policy object and define the rules that apply to passwords in your system:
+
+```python
+from password_strength import PasswordPolicy
+
+policy = PasswordPolicy.from_names(
+    length=8,  # min length: 8
+    uppercase=2,  # need min. 2 uppercase letters
+    numbers=2,  # need min. 2 digits
+    special=2,  # need min. 2 special characters
+    nonletters=2,  # need min. 2 non-letter characters (digits, specials, anything)
+)
+```
+
+Now, when you have the `PasswordPolicy` object, you can use it to test your passwords,
+and it will tell you which tests have failed:
+
+```python
+policy.test('ABcd12!')
+# -> [Length(8), Special(2)]
+```
+
+This tells us that 2 tests have failed: password is not long enough, and it does not have enough special characters.
+You can use this information to tell the user what precisely is wrong with their password.
+
+```python
+policy.test('ABcd12!@')
+# -> []
+```
+
+Empty list tells us that this password is alright.
+
+This test, however, enabled uses to use passwords that have a lot of repetition.
+
+### So-Called Entropy Bits
+
+Here's a test that's even better. You don't really need to define complex rules with special characters and stuff.
+All you actually need is a password that's long enough, complex enough, and easy to remember
+(see [xkcd](https://xkcd.com/936/) and
+[Article: Everything We've Been Told About Passwords Is Wrong](https://www.inc.com/thomas-koulopoulos/all-that-advice-about-passwords-turns-out-to-be-to.html)).
+
+So, instead of defining all these rules, let's just require the password to be complex enough.
+Entropy bits is something that defines how much variety does your password have. '01111010010011' is long enough,
+but has only 2 entropy bits: that's how many bits you need to store its alphabet. However, a password that uses
+plenty of characters has more entropy.
+
+```python
+policy = PasswordPolicy.from_names(
+    entropybits=30  # need a password that has minimum 30 entropy bits (the power of its alphabet)
+)
+
+print(policy.test('0123456789'))
+# -> []
+```
+
+This password is not long enough, or secure enough, but has enough entropy: its vocabulary has 10 different characters.
+Put this test together with other requirements to make sure there's no repetition in your passwords.
+
+### Complexity
+
+Entropy bits are important, but difficult to understand. An even better, more intuitive test, is to require
+the password to be "complex enough".
+Complexity is a number in the range of 0.00..0.99. Good, strong passwords start at 0.66.
+
+Let's first see how different passwords score:
+
+```python
+from password_strength import PasswordStats
+
+stats = PasswordStats('qwerty123')
+print(stats.strength())  #-> Its strength is 0.316
+
+stats = PasswordStats('G00dPassw0rd?!')
+print(stats.strength())  #-> Its strength is 0.585
+
+stats = PasswordStats('V3ryG00dPassw0rd?!')
+print(stats.strength())  #-> Its strength is 0.767
+```
+
+So, 0.66 will be a very good indication of a good password.
+Let's implement our policy:
+
+```python
+policy = PasswordPolicy.from_names(
+    strength=0.66  # need a password that scores at least 0.5 with its strength
+)
+
+print(policy.test('V3ryG00dPassw0rd?!'))
+# -> []  -- empty list means a good password
+```
+
+One good thing about using strength is that it allows users to use national aplhabets with passwords,
+which are most secure:
+
+```python
+tested_pass = policy.password('Mixed-汉堡包/漢堡包, 汉堡/漢堡')
+print(tested_pass.strength())  # -> 0.812 -- very good!
+print(tested_pass.test())
+#-> []  - good password; it actually scored 0.812
+```
+
+Notice how in the last example we use a different approach: `policy.password()` analyzes the password, and then we can
+both get its `.strength()`, and `.test()` it according to the current policy.
+
 PasswordPolicy
 ==============
 

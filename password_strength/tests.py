@@ -7,6 +7,7 @@ class Length(ATest):
     """ Tests whether password length >= `length` """
 
     def __init__(self, length):
+        super(Length, self).__init__(length)
         self.length = length
 
     def test(self, ps):
@@ -17,6 +18,7 @@ class Uppercase(ATest):
     """ Test whether the password has >= `count` uppercase characters """
 
     def __init__(self, count):
+        super(Uppercase, self).__init__(count)
         self.count = count
 
     def test(self, ps):
@@ -54,9 +56,15 @@ class NonLettersLc(Uppercase):
 
 
 class EntropyBits(ATest):
-    """ Test whether the password has >= `bits` entropy bits """
+    """ Test whether the password has >= `bits` entropy bits.
+
+    Entropy bits is the number of bits that is required to store the alphabet that's used in a password.
+    It's a measure of how long is the alphabet.
+
+    """
 
     def __init__(self, bits):
+        super(EntropyBits, self).__init__(bits)
         self.bits = bits
 
     def test(self, ps):
@@ -71,6 +79,7 @@ class Strength(ATest):
     """
 
     def __init__(self, strength, weak_bits=30):
+        super(Strength, self).__init__(strength, weak_bits)
         self.strength = strength
         self.weak_bits = weak_bits
 
