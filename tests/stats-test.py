@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import six
 from password_strength import PasswordStats
 
 
@@ -43,10 +44,10 @@ class StatsTest(unittest.TestCase):
         p58 = 'abcdefgh!@#$%^&'
         p89 = 'correcthorsebatterystaple'
 
-        p160  = ''.join(unichr(n) for n in range(0, 32))
-        p384  = ''.join(unichr(n) for n in range(0, 64))
-        p896  = ''.join(unichr(n) for n in range(0, 128))
-        p2048 = ''.join(unichr(n) for n in range(0, 256))
+        p160  = ''.join(six.unichr(n) for n in range(0, 32))
+        p384  = ''.join(six.unichr(n) for n in range(0, 64))
+        p896  = ''.join(six.unichr(n) for n in range(0, 128))
+        p2048 = ''.join(six.unichr(n) for n in range(0, 256))
 
         self.assertEqual(PasswordStats(p2).combinations,  4)
         self.assertEqual(PasswordStats(p8).combinations,  256)

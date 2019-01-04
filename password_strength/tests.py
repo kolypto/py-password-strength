@@ -1,6 +1,6 @@
 """ These objects perform individual tests on a password, and report `True` of `False`. """
 
-from tests_base import ATest
+from .tests_base import ATest
 
 
 class Length(ATest):

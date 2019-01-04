@@ -5,7 +5,12 @@ from collections import Counter
 from math import log
 import re
 from functools import wraps
-from itertools import izip, takewhile
+import sys, six
+
+try:  # Python 2
+    from itertools import izip as zip
+except ImportError:
+    pass  # Python 3
 
 
 def cached_property(f):
@@ -27,7 +32,7 @@ class PasswordStats(object):
     """
 
     def __init__(self, password):
-        self.password = unicode(password)
+        self.password = six.text_type(password)
 
     #region Statistics
 
@@ -131,7 +136,7 @@ class PasswordStats(object):
         :type categories: Iterable
         :rtype: int
         """
-        return sum(map(lambda (cat, n): int(cat in categories)*n, self.char_categories.items()))
+        return sum([int(cat_n[0] in categories) * cat_n[1] for cat_n in list(self.char_categories.items())])
 
     def count_except(self, *categories):
         """ Count characters of all classes except the specified ones
@@ -140,7 +145,7 @@ class PasswordStats(object):
         :type categories: Iterable
         :rtype: int
         """
-        return sum(map(lambda (cat, n): int(cat not in categories) * n, self.char_categories.items()))
+        return sum([int(cat_n1[0] not in categories) * cat_n1[1] for cat_n1 in list(self.char_categories.items())])
 
     @cached_property
     def special_characters(self):
@@ -292,7 +297,7 @@ class PasswordStats(object):
 
                 # Find the longest common prefix
                 common_here = ''
-                for a, b in izip(password, self._sequences[j:]):
+                for a, b in zip(password, self._sequences[j:]):
                     if a != b: break
                     else: common_here += a
 

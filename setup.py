@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='password_strength',
-    version='0.0.2-0',
+    version='0.0.3-0',
     author='Mark Vartanyan',
     author_email='kolypto@gmail.com',
 
@@ -21,6 +21,7 @@ setup(
     entry_points={},
 
     install_requires=[
+        'six',
     ],
     extras_require={
     },
@@ -35,7 +36,7 @@ setup(
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2',
-        #'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
 )

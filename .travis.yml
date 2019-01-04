@@ -6,18 +6,18 @@ matrix:
   include:
     - python: 2.7
       env: TOXENV=py
-#    - python: 3.4
-#      env: TOXENV=py
-#    - python: 3.5
-#      env: TOXENV=py
-#    - python: 3.6
-#      env: TOXENV=py
-#    - python: 3.7-dev
-#      env: TOXENV=py
+    - python: 3.4
+      env: TOXENV=py
+    - python: 3.5
+      env: TOXENV=py
+    - python: 3.6
+      env: TOXENV=py
+    - python: 3.7-dev
+      env: TOXENV=py
     - python: pypy
       env: TOXENV=py
-#    - python: pypy3
-#      env: TOXENV=py
+    - python: pypy3
+      env: TOXENV=py
 
 install:
   - pip install tox

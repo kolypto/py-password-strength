@@ -15,7 +15,7 @@ def docmodule(module, *predicates):
 def doccls(cls, *predicates):
     return {
         'class': doc(cls),
-        'attrs': {key: doc(value) for key, value in getmembers(cls, *predicates)},
+        'attrs': {key: doc(value, cls) for key, value in getmembers(cls, *predicates)},
     }
 
 
@@ -26,4 +26,4 @@ data = {
     'ATest': doc(password_strength.tests.ATest),
 }
 
-print json.dumps(data, indent=2)
+print(json.dumps(data, indent=2))

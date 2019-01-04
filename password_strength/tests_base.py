@@ -1,3 +1,5 @@
+from six import with_metaclass
+
 class ATestMeta(type):
     """ Metaclass that collects class names into `ATest.test_classes` dict.
 
@@ -16,7 +18,7 @@ class ATestMeta(type):
         return cls
 
 
-class ATest(object):
+class ATest(with_metaclass(ATestMeta, object)):
     """ ATest is a base class for password tests.
 
         To create a custom test, just subclass it and implement the following methods:
@@ -24,18 +26,16 @@ class ATest(object):
         * __init__() that takes configuration arguments
         * test(ps) that tests a password, where `ps` is a `PasswordStats` object.
     """
-    __metaclass__ = ATestMeta
-
     #: Test classes map: { name : class }
     test_classes = {}
 
-    def __new__(cls, *args):
-        test = super(ATest, cls).__new__(cls, *args)
-        test.args = args  # Store args
-        return test
+    #def __new__(cls, *args):  # looks like this code is not really necessary... :)
+    #    test = super(ATest, cls).__new__(cls, *args)
+    #    test.args = args  # Store args
+    #    return test
 
     def __init__(self, *args):
-        self.args = args
+        self.args = args  # Store args
 
     @classmethod
     def name(cls):
