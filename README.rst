@@ -1,4 +1,5 @@
 `Build Status <https://travis-ci.org/kolypto/py-password-strength>`__
+`Pythons <.travis.yml>`__
 
 Password Strength
 =================
