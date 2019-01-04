@@ -1,10 +1,12 @@
 # ===[ APP ]=== #
 
 # ===[ PYTHON PACKAGE ]=== #
+/.tox/
 /build/
 /dist/
 /MANIFEST
 /*.egg-info/
+/*.egg/
 
 # ===[ OTHER ]=== #
 

@@ -12,7 +12,8 @@ setup(
     url='https://github.com/kolypto/py-password-strength',
     license='BSD',
     description=__doc__,
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     keywords=['password', 'strength', 'policy', 'security'],
 
     packages=find_packages(),
@@ -22,7 +23,6 @@ setup(
     install_requires=[
     ],
     extras_require={
-        '_dev': ['wheel', 'nose', 'exdoc', 'j2cli' ],
     },
     include_package_data=True,
     test_suite='nose.collector',
