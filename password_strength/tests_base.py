@@ -1,5 +1,3 @@
-from typing import Any
-
 from six import with_metaclass
 
 class ATestMeta(type):
